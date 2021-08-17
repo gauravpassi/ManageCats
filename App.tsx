@@ -5,6 +5,7 @@ import {persistor, store} from './src/redux/store';
 import ThemeProvider from './src/utitles/theme/theme-provider';
 import Welcome from './src/containers/Welcome';
 import Dashboard from './src/containers/Dashboard';
+import AddCat from './src/containers/AddCat';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -16,6 +17,7 @@ function AppNavigation() {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="AddCat" component={AddCat} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -24,7 +26,7 @@ function AppNavigation() {
 const App = () => {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider>
           <AppNavigation />
         </ThemeProvider>

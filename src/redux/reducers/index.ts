@@ -17,13 +17,11 @@ export default function reducer(
       state.myCats.push(action.payload);
       return {...state};
     case DELETE_CAT: {
-      let index = state.myCats.findIndex(d => d.id === action.payload);
-      state.myCats.splice(index, 1);
+      state.myCats.splice(action.payload, 1);
       return {...state};
     }
     case UPDATE_CAT: {
-      let index = state.myCats.findIndex(d => d.id === action.payload);
-      state.myCats[index] = action.payload;
+      state.myCats[action.index!] = action.payload;
       return {...state};
     }
     default:

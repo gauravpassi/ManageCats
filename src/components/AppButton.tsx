@@ -39,7 +39,7 @@ const styles = (theme: AppThemeModel) =>
       paddingVertical: 10,
       paddingHorizontal: 50,
       backgroundColor: '#c00b2c',
-      borderRadius: 15,
+      borderRadius: 5,
     },
     text: {
       fontFamily: theme.fontThin,
