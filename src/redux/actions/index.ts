@@ -10,17 +10,16 @@ export const addCat = (cat: Cat) => {
   };
 };
 
-export const updateCat = (cat: Cat, index: number) => {
+export const updateCat = (cat: Cat) => {
   return {
     type: UPDATE_CAT,
     payload: cat,
-    index: index,
   };
 };
 
-export const deleteCat = (id: number) => {
+export const deleteCat = (cat: Cat) => {
   return {
     type: DELETE_CAT,
-    payload: id,
+    payload: cat
   };
 };

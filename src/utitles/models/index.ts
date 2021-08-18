@@ -23,5 +23,4 @@ export interface AppMainState {
 export interface AppAction {
   type: string;
   payload?: any;
-  index?: number;
 }

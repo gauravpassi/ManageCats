@@ -19,8 +19,8 @@ interface DispatchProps {
   navigation?: any;
   cats?: Cat[];
   addCat: (cat: Cat) => void;
-  deleteCat: (id: number) => void;
-  updateCat: (cat: Cat, index: number) => void;
+  deleteCat: (cat: Cat) => void;
+  updateCat: (cat: Cat) => void;
 }
 
 class Dashboard extends React.Component<DispatchProps, StateProps> {
@@ -41,6 +41,12 @@ class Dashboard extends React.Component<DispatchProps, StateProps> {
               isEdit: false,
               cat: null,
               onSubmit: (cat: Cat) => {
+                if (cats && cats.length > 0) {
+                  cat.id = cats[cats.length - 1].id + 1;
+                } else {
+                  cat.id = 1;
+                }
+
                 addCat(cat);
                 this.setState({refresh: true});
               },
@@ -51,7 +57,7 @@ class Dashboard extends React.Component<DispatchProps, StateProps> {
           style={{flex: 1, padding: 10}}
           data={cats}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => (
+          renderItem={({item}) => (
             <View
               style={{
                 backgroundColor: '#e7e7e7',
@@ -83,7 +89,7 @@ class Dashboard extends React.Component<DispatchProps, StateProps> {
                       isEdit: true,
                       cat: item,
                       onSubmit: (cat: Cat) => {
-                        updateCat(cat, index);
+                        updateCat(cat);
                         this.setState({refresh: true});
                       },
                     })
@@ -97,7 +103,7 @@ class Dashboard extends React.Component<DispatchProps, StateProps> {
                     paddingHorizontal: 10,
                   }}
                   onPress={async () => {
-                    await deleteCat(index);
+                    await deleteCat(item);
                     this.setState({refresh: true});
                   }}
                 />
@@ -126,14 +132,15 @@ const styles = (theme: AppThemeModel) => {
 
 const mapStateToProps = (state: AppMainState): StateProps => {
   return {
-    cats: state.myCats,
+    // @ts-ignore
+    cats: state.reducer.myCats,
   };
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({
   addCat: (cat: Cat) => dispatch(addCat(cat)),
-  deleteCat: (id: number) => dispatch(deleteCat(id)),
-  updateCat: (cat: Cat, index: number) => dispatch(updateCat(cat, index)),
+  deleteCat: (cat: Cat) => dispatch(deleteCat(cat)),
+  updateCat: (cat: Cat) => dispatch(updateCat(cat)),
 });
 
 export default connect(

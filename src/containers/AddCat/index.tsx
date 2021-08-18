@@ -24,19 +24,22 @@ type AddCatProps = {
 const AddCat = ({theme}: AddCatProps) => {
   const navigation = useNavigation();
   const route = useRoute();
-  const {
-    params: {onSubmit, isEdit, cat},
-  } = route;
 
-  const [name, setName] = useState(isEdit ? cat.name : '');
-  const [breed, setBreed] = useState(isEdit ? cat.breed : '');
-  const [color, setColor] = useState(isEdit ? cat.color : '');
-  const [age, setAge] = useState(isEdit ? cat.age : '');
+  const {params} = route;
+
+  // @ts-ignore
+  const [name, setName] = useState(params.isEdit ? params.cat.name : '');
+  // @ts-ignore
+  const [breed, setBreed] = useState(params.isEdit ? params.cat.breed : '');
+  // @ts-ignore
+  const [color, setColor] = useState(params.isEdit ? params.cat.color : '');
+  // @ts-ignore
+  const [age, setAge] = useState(params.isEdit ? params.cat.age : '');
 
   return (
     <SafeAreaView style={styles(theme).root}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={styles(theme).title}>Add Cart</Text>
+        <Text style={styles(theme).title}>Add Cat</Text>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={Cancel} style={{width: 30, height: 30}} />
         </TouchableOpacity>
@@ -68,14 +71,27 @@ const AddCat = ({theme}: AddCatProps) => {
         containerStyle={{marginTop: 20}}
         onPress={() => {
           if (name && breed && age && color) {
-            let cat: Cat = {
-              age: age,
-              breed: breed,
-              color: color,
-              id: 0,
-              name: name,
-            };
-            onSubmit(cat);
+            // @ts-ignore
+            if (params.isEdit) {
+              // @ts-ignore
+              let cat = params.cat;
+              cat.name = name;
+              cat.breed = breed;
+              cat.age = age;
+              cat.color = color;
+              // @ts-ignore
+              params.onSubmit(cat);
+            } else {
+              let cat: Cat = {
+                id: 0,
+                age: age,
+                breed: breed,
+                color: color,
+                name: name,
+              };
+              // @ts-ignore
+              params.onSubmit(cat);
+            }
             navigation.goBack();
           }
         }}

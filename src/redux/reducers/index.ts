@@ -14,15 +14,24 @@ export default function reducer(
 ): AppMainState {
   switch (action.type) {
     case ADD_CAT:
-      state.myCats.push(action.payload);
-      return {...state};
+      return {...state, myCats: [...state.myCats, action.payload]};
     case DELETE_CAT: {
-      state.myCats.splice(action.payload, 1);
-      return {...state};
+      console.log(action.payload);
+      return {
+        ...state,
+        myCats: state.myCats.filter(cat => cat.id !== action.payload.id),
+      };
     }
     case UPDATE_CAT: {
-      state.myCats[action.index!] = action.payload;
-      return {...state};
+      return {
+        ...state,
+        myCats: state.myCats.filter(cat => {
+          if (cat.id == action.payload.id) {
+            return action.payload;
+          }
+          return cat;
+        }),
+      };
     }
     default:
       return state;

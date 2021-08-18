@@ -9,7 +9,8 @@ interface StateProps {
 
 const mapStateToProps = (state: AppMainState): StateProps => {
   return {
-    theme: state.theme,
+    // @ts-ignore
+    theme: state.reducer.theme,
   };
 };
 
